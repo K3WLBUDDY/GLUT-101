@@ -1,0 +1,10 @@
+GCC Linking Primer
+
+For individual CPP files - g++ -c cppfile
+
+For Main CPP File and final executable - g++ -o objname 
+individualobjfiles.o
+
+Include External Libs by using -l
+
+Eg: -lSDL2 for SDL2
