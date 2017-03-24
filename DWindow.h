@@ -13,10 +13,13 @@ class DWindow
 private:
 
   SDL_Window* _window;
+  SDL_GLContext _glContext;
+  //int width = 1024;
+  //int height = 500;
 
   void init();
   void processInput();
-  void drawGame();
+  void draw();
 
 public:
 
