@@ -1,5 +1,5 @@
 #include "DWindow.h"
-
+#
 
 
 void DWindow::init()
@@ -58,11 +58,16 @@ void DWindow::processInput()
 
 void DWindow::draw()
 {
+  glClearDepth(1.0);
+
   glGenBuffers(1, &_VBO);
   glBindBuffers(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices, GL_STATIC_DRAW);
 
-  glClearDepth(1.0);
+  ds.compileShader("Shaders/vertex.vs");
+  ds.compileShader("Shaders/fragment.fs");
+
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   SDL_GL_SwapWindow(_window);//Swapping for Double Buffer
