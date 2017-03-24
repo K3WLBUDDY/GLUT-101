@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-
+#include "DShader.h"
 
 enum class state{PLAY, STOP};
 
@@ -14,6 +14,8 @@ private:
 
   SDL_Window* _window;
   SDL_GLContext _glContext;
+  GLfloat _vertices[];
+  GLuint _VBO;
   //int width = 1024;
   //int height = 500;
 

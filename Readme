@@ -8,3 +8,18 @@ individualobjfiles.o
 Include External Libs by using -l
 
 Eg: -lSDL2 for SDL2
+
+OpenGL Stuff:
+
+Input - Vertices via Vertex Buffer Objects.
+
+NDC - Normalized Device Coordinates - Accepted input values for input
+	of Vertices (-1 to +1)
+
+	Coordinates out of NDC won't appear on screen
+
+Vertex Buffer Object - VBO - Stores no. of Vertices on GPU
+
+Buffer Object is generated, Binded and Data is loaded
+
+
