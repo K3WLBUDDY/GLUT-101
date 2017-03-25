@@ -14,8 +14,9 @@ private:
 
   SDL_Window* _window;
   SDL_GLContext _glContext;
-  GLfloat _vertices[];
+  GLfloat _vertices[8];
   GLuint _VBO;
+  GLuint _VAO;
   DShader ds;
   //int width = 1024;
   //int height = 500;

@@ -1,23 +1,19 @@
 #include "DShader.h"
 
-DShader::DShader() : _vs(0), _fs(0), pid(0){}
-
-bool DShader::compileShader(const string& filePath)
+void DShader::compileShader(const std::string& filePath)
 {
-  ifstream shaderCode(filePath);
+  std::ifstream shaderCode (filePath);
   if(shaderCode.fail())
   {
     perror(filePath.c_str());
     std::cout<<"\n Failed to Open " <<filePath;
-
-    return false;
   }
-  string code="";
-  string line;
+  std::string code="";
+  std::string line;
 
   int pathLen = strlen(filePath);
   int extBuffer = pathLen-2;
-  string ext[2];
+  std::string ext[2];
 
   for(int i=0;i<2;i++)
     strcpy(ext[i], filePath[extBuffer++]);
@@ -29,7 +25,6 @@ bool DShader::compileShader(const string& filePath)
     if(_vs == 0)
     {
        std::cout<<"\n Failed to Create Vertex Shader";
-       return false;
     }
 
     else
@@ -54,7 +49,7 @@ bool DShader::compileShader(const string& filePath)
         GLint maxLen=0;
         glGetShaderiv(_vs, GL_INFO_LOG_LENGTH, &maxLen);
 
-        vector<char> errorLog(maxLen);
+        std::vector<char> errorLog(maxLen);
         glGetShaderInfoLog(_vs, maxLen, &maxLen, &errorLog[0]);
 
         glDeleteShader(_vs);
@@ -76,7 +71,6 @@ bool DShader::compileShader(const string& filePath)
     if(_fs == 0)
     {
        std::cout<<"\n Failed to Create Fragment Shader";
-       return false;
     }
 
     else
@@ -101,7 +95,7 @@ bool DShader::compileShader(const string& filePath)
         GLint maxLen=0;
         glGetShaderiv(_fs, GL_INFO_LOG_LENGTH, &maxLen);
 
-        vector<char> errorLog(maxLen);
+        std::vector<char> errorLog(maxLen);
         glGetShaderInfoLog(_fs, maxLen, &maxLen, &errorLog[0]);
 
         glDeleteShader(_fs);
@@ -112,10 +106,12 @@ bool DShader::compileShader(const string& filePath)
 
         SDL_Quit();
       }
+    }
   }
 }
 
-bool DShader::linkShader()
+
+void DShader::linkShader()
 {
 
   _pID = glCreateProgram();
@@ -139,7 +135,7 @@ bool DShader::linkShader()
 		glGetProgramInfoLog(_pID, maxLength, &maxLength, &infoLog[0]);
 
 		//We don't need the program anymore.
-		glDeleteProgram(_pID);
+		//glDeleteProgram(_pID);
 		//Don't leak shaders either.
 		glDeleteShader(_vs);
 		glDeleteShader(_fs);
@@ -147,16 +143,17 @@ bool DShader::linkShader()
 
 		//Use the infoLog as you see fit.
 		printf("%s\n", &(infoLog[0]));
-		fatalError("Shader failed to Link");
+		std::cout<<"\n Shader failed to Link";
 
+  }
 }
 
 void DShader::use()
 {
-
+  glUseProgram(_pID);
 }
 
-void DShader::unuse()
+/*void DShader::unuse()
 {
 
-}
+}*/
