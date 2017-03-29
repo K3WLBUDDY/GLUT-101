@@ -11,35 +11,30 @@ void DShader::compileShader(std::string& filePath)
     perror(fp);
     std::cout<<"\n Failed to Open " <<fp;
   }
-  std::string code="";
+  std::string code="";//Holds current GLSL Code
   std::string line;
 
   int pathLen = strlen(fp);
-  int extBuffer = pathLen-2;
+  int extBuffer = pathLen-2;//Gets length of Shader File name w/o extension
 
   std::string ext=filePath.substr(extBuffer, 2);
 
   if(ext.compare("vs") == 0)
   {
-    _vs = glCreateShader(GL_VERTEX_SHADER);
-    std::cout<<"\n Created VS";
+    _vs = glCreateShader(GL_VERTEX_SHADER);//Creates VS Object
 
     if(_vs == 0)
-    {
        std::cout<<"\n Failed to Create Vertex Shader";
-    }
 
     else
     {
       while(getline(shaderCode, line))
-      {
         code += line+"\n";
-      }
       shaderCode.close();
 
       const char* contentPtr = code.c_str();
 
-      glShaderSource(_vs, 1, &contentPtr, nullptr);
+      glShaderSource(_vs, 1, &contentPtr, nullptr);//Gets source for Shader
       glCompileShader(_vs);
 
       GLint success =0;
@@ -69,19 +64,14 @@ void DShader::compileShader(std::string& filePath)
   else if(ext.compare("fs") == 0)
   {
     _fs = glCreateShader(GL_FRAGMENT_SHADER);
-    std::cout<<"\n Created FS";
 
     if(_fs == 0)
-    {
        std::cout<<"\n Failed to Create Fragment Shader";
-    }
 
     else
     {
       while(getline(shaderCode, line))
-      {
         code += line+"\n";
-      }
       shaderCode.close();
 
       const char* contentPtr = code.c_str();
@@ -146,18 +136,11 @@ void DShader::linkShader()
 
 		//Use the infoLog as you see fit.
 		printf("%s\n", &(infoLog[0]));
-		std::cout<<"\n Shader failed to Link";
 
   }
-  std::cout<<"\n LINK SUCCESSFULL";
 }
 
 void DShader::use()
 {
   glUseProgram(_pID);
 }
-
-/*void DShader::unuse()
-{
-
-}*/
