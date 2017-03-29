@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL2/SDL.h>
+#include <fstream>
 
 class DShader
 {
@@ -18,7 +19,7 @@ private:
 
 public:
 
-  void compileShader(const std::string& filePath);
+  void compileShader(std::string& filePath);
   void linkShader();
   void use();
   //void unuse();

@@ -14,7 +14,7 @@ private:
 
   SDL_Window* _window;
   SDL_GLContext _glContext;
-  GLfloat _vertices[8];
+  //GLfloat _vertices[8];
   GLuint _VBO;
   GLuint _VAO;
   DShader ds;
@@ -24,6 +24,7 @@ private:
   void init();
   void processInput();
   void draw();
+  void shaderCompile();
 
 public:
 

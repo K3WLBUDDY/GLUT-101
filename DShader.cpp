@@ -1,26 +1,28 @@
 #include "DShader.h"
 
-void DShader::compileShader(const std::string& filePath)
+void DShader::compileShader(std::string& filePath)
 {
-  std::ifstream shaderCode (filePath);
+
+  const char *fp = filePath.c_str();;
+  //std::cout<<"\n Reached this too";
+  std::ifstream shaderCode (fp);
   if(shaderCode.fail())
   {
-    perror(filePath.c_str());
-    std::cout<<"\n Failed to Open " <<filePath;
+    perror(fp);
+    std::cout<<"\n Failed to Open " <<fp;
   }
   std::string code="";
   std::string line;
 
-  int pathLen = strlen(filePath);
+  int pathLen = strlen(fp);
   int extBuffer = pathLen-2;
-  std::string ext[2];
 
-  for(int i=0;i<2;i++)
-    strcpy(ext[i], filePath[extBuffer++]);
+  std::string ext=filePath.substr(extBuffer, 2);
 
-  if(strcmp(ext, "vs") == 0)
+  if(ext.compare("vs") == 0)
   {
     _vs = glCreateShader(GL_VERTEX_SHADER);
+    std::cout<<"\n Created VS";
 
     if(_vs == 0)
     {
@@ -64,9 +66,10 @@ void DShader::compileShader(const std::string& filePath)
 
 
   }
-  else if(strcmp(ext, "fs") == 0)
+  else if(ext.compare("fs") == 0)
   {
     _fs = glCreateShader(GL_FRAGMENT_SHADER);
+    std::cout<<"\n Created FS";
 
     if(_fs == 0)
     {
@@ -146,6 +149,7 @@ void DShader::linkShader()
 		std::cout<<"\n Shader failed to Link";
 
   }
+  std::cout<<"\n LINK SUCCESSFULL";
 }
 
 void DShader::use()
