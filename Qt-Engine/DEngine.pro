@@ -27,15 +27,15 @@ SOURCES += main.cpp\
         dengine.cpp
 
 HEADERS  += dengine.h\
-            /usr/include/SDL2/SDL.h
+            /usr/local/include/SDL2/SDL.h
 
 FORMS    += dengine.ui
 
-LIBS     += -L/usr/lib -lSDL2
+LIBS     += -L/usr/local/lib -lSDL2
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/lib/release/ -lSDL2
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/lib/debug/ -lSDL2
-else:unix: LIBS += -L$$PWD/../../../../usr/lib/ -lSDL2
+else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lSDL2
 
-INCLUDEPATH += $$PWD/../../../../usr/include/SDL2
-DEPENDPATH += $$PWD/../../../../usr/include/SDL2
+INCLUDEPATH += $$PWD/../../../../usr/local/include/SDL2
+DEPENDPATH += $$PWD/../../../../usr/local/include/SDL2

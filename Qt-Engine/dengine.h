@@ -25,6 +25,8 @@ public:
 private:
     Ui::DEngine *ui;
 
+    void draw();
+
 
 
 
