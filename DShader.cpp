@@ -115,7 +115,6 @@ void DShader::linkShader()
 	//Link our program
 	glLinkProgram(_pID);
 
-	//Note the different functions here: glGetProgram* instead of glGetShader*.
 	GLint isLinked = 0;
 	glGetProgramiv(_pID, GL_LINK_STATUS, (int *)&isLinked);
 	if (isLinked == GL_FALSE)
@@ -123,13 +122,10 @@ void DShader::linkShader()
 		GLint maxLength = 0;
 		glGetProgramiv(_pID, GL_INFO_LOG_LENGTH, &maxLength);
 
-		//The maxLength includes the NULL character
+	
 		std::vector<char> infoLog(maxLength);
 		glGetProgramInfoLog(_pID, maxLength, &maxLength, &infoLog[0]);
 
-		//We don't need the program anymore.
-		//glDeleteProgram(_pID);
-		//Don't leak shaders either.
 		glDeleteShader(_vs);
 		glDeleteShader(_fs);
 

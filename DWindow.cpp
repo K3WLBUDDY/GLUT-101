@@ -70,9 +70,6 @@ void DWindow::draw()
   glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-  ds.use();
-
   //Binds the Vertex Array Object
   glBindVertexArray(_VAO);
 
@@ -80,7 +77,11 @@ void DWindow::draw()
   glDrawArrays(GL_TRIANGLES, 0, 3);
   glBindVertexArray(0);
 
+  ds.use();
+
   SDL_GL_SwapWindow(_window);
+
+ 
 
 }
 
@@ -92,7 +93,7 @@ void DWindow::init()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);//Min OpenGL 3 Core
 
-  _window = SDL_CreateWindow("Test Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024 ,768, SDL_WINDOW_OPENGL);
+  _window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024 ,768, SDL_WINDOW_OPENGL);
 
 
   if(_window==nullptr)
