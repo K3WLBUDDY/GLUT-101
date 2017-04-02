@@ -77,7 +77,6 @@ void DWindow::draw()
   glBindVertexArray(_VAO);
 
   //Draws from the specified Index
-  //
   glDrawArrays(GL_TRIANGLES, 0, 3);
   glBindVertexArray(0);
 

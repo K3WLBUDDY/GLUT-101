@@ -27,3 +27,5 @@ must be bound before any calls
 REMEMBER TO UNBIND BUFFERS ONCE DONE WITH THEM!!
 
 ALWAYS CLEAR COLOR WHEN DRAWING.
+
+Element Buffer Object - Stores indexes of vertices to be drawn 
