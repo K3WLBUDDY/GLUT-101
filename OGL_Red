@@ -1,0 +1,29 @@
+OpenGL.
+
+Immediate Mode - Calls to GPU directly cause Rendering to occur
+
+Retained Mode - Buffers are maintained and sent to the GPU. 
+Once sent the Code cannot access and modify the buffer
+
+Fixed Function Pipeline - Present before the advent of Shaders.
+
+
+Object Model - Generate Required No. of Objects. Bind One of them
+
+Work with the bound object.
+
+Unbind them and finally delete them
+
+Communicating between Shaders and OGL Code - 
+
+Inputs from Code to Shader must go via attributes.
+Attributes can be created by first uploading the inputs into a buffer and having an attribute pointer to the location of that buffer.
+
+The Vertex Attribute must be enabled before use
+
+Attributes are associated with Vertex Array Objects and a VAO 
+must be bound before any calls
+
+REMEMBER TO UNBIND BUFFERS ONCE DONE WITH THEM!!
+
+ALWAYS CLEAR COLOR WHEN DRAWING.
