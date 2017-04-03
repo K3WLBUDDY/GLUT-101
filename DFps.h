@@ -18,15 +18,19 @@
 class DFps
 {
 private:
-	int screenFPS;
+	float screenFPS;
 	int screenTicks;
-	int screenRefreshRate;
+	float screenRefreshRate;
+	static const int numSamples = 10;
 
-	DFps() : screenFPS(60), screenRefreshRate(60), screenTicks(0) {}
+	DFps() : screenFPS(0), screenRefreshRate(0), screenTicks(0) {}
 
 public:
 
-	int getRefreshRate();
+	void setRefreshRate();
+	void begin();
+	void calculateFPS();
+	float end();
 
 
 

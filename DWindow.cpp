@@ -13,6 +13,7 @@ GLfloat _indices[] = {
 void DWindow::run() //Should run at 60 FPS
 {
   init(); //Initializes SDL and GLEW
+  _df.setRefreshRate();
   shaderCompile(); //Compiles VS and FS
 
   //Generates Buffer Object names. Names can be reused
@@ -54,8 +55,10 @@ void DWindow::run() //Should run at 60 FPS
 
   while(s!= state::STOP)
   {
+    _df.begin();
     processInput();
     draw();
+    std::cout<<"\n\t FPS : "<<_df.end();
   }
 
   glDeleteVertexArrays(1, &_VAO);
@@ -113,7 +116,6 @@ void DWindow::draw()
 void DWindow::init()
 {
 
-  std::cout<<"Current Refresh Rate : "<<_df.getRefreshRate();
   SDL_Init(SDL_INIT_EVERYTHING);
 
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
