@@ -1,9 +1,8 @@
 #include "DWindow.h"
 GLfloat _vertices[] = {
-  0.5f,  0.5f, 0.0f,  // Top Right
+  -0.5f,  -0.5f, 0.0f,  // Top Right
   0.5f, -0.5f, 0.0f,  // Bottom Right
-  -0.5f, -0.5f, 0.0f,  // Bottom Left
-  -0.5f,  0.5f, 0.0f 
+  0.0f, 0.5f, 0.0f,  // Bottom Left
 };
 
 GLfloat _indices[] = {
@@ -90,9 +89,9 @@ void DWindow::draw()
   glBindVertexArray(_VAO);
 
   //Draws from the specified Index
-  //glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   

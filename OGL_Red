@@ -29,3 +29,13 @@ REMEMBER TO UNBIND BUFFERS ONCE DONE WITH THEM!!
 ALWAYS CLEAR COLOR WHEN DRAWING.
 
 Element Buffer Object - Stores indexes of vertices to be drawn 
+
+Generated and bound in the same generic way. 
+
+Uniforms: Global Variables valid for an entire Program Object. Always Constant and can't be passed as inouts
+
+Uniform must be set active in order to use em'
+
+glGettUniformLocation returns the location of the Unifomr in the GLSL code
+
+glUniform* sets the new unifomrm value
