@@ -55,10 +55,9 @@ void DWindow::run() //Should run at 60 FPS
 
   while(s!= state::STOP)
   {
-    _df.begin();
+
     processInput();
     draw();
-    std::cout<<"\n\t FPS : "<<_df.end();
   }
 
   glDeleteVertexArrays(1, &_VAO);
