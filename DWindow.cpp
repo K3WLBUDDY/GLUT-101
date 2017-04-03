@@ -1,8 +1,14 @@
 #include "DWindow.h"
 GLfloat _vertices[] = {
-  -0.5f, -0.5f, 0.0f,
-  0.5f, -0.5f, 0.0f,
-  0.0f, 0.5f, 0.0f
+  0.5f,  0.5f, 0.0f,  // Top Right
+  0.5f, -0.5f, 0.0f,  // Bottom Right
+  -0.5f, -0.5f, 0.0f,  // Bottom Left
+  -0.5f,  0.5f, 0.0f 
+};
+
+GLfloat _indices[] = {
+  0, 1, 3, 
+  1, 2, 3
 };
 
 void DWindow::run() //Should run at 60 FPS
@@ -15,6 +21,7 @@ void DWindow::run() //Should run at 60 FPS
 
 
   glGenBuffers(1, &_VBO);
+  glGenBuffers(1, &_EBO);
 
   //Generates Vertex Array Object Names.
   glGenVertexArrays(1, &_VAO);
@@ -24,9 +31,13 @@ void DWindow::run() //Should run at 60 FPS
 
   // GL_ARRAY_BUFFER specifies Vertex Attributes
   glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+ 
 
   //Specifies the Data being stored in the Buffer
   glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices, GL_STATIC_DRAW);
+
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices), _indices, GL_STATIC_DRAW);
 
   //Takes the Currently bound Buffer Data and sends it to the Shader
   //Shader Attribute is specified by the location
@@ -38,7 +49,7 @@ void DWindow::run() //Should run at 60 FPS
 
   //Unbinds the VBO
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   //Unbinds the VAO
   glBindVertexArray(0);
 
@@ -74,13 +85,17 @@ void DWindow::draw()
   glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   //Binds the Vertex Array Object
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
+  ds.use();
   glBindVertexArray(_VAO);
 
   //Draws from the specified Index
-  glDrawArrays(GL_TRIANGLES, 0, 3);
-  glBindVertexArray(0);
+  //glDrawArrays(GL_TRIANGLES, 0, 3);
 
-  ds.use();
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glBindVertexArray(0);
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  
 
   SDL_GL_SwapWindow(_window);
 

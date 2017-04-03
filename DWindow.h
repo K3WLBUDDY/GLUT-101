@@ -16,6 +16,7 @@ private:
   SDL_GLContext _glContext;
   GLuint _VBO;
   GLuint _VAO;
+  GLuint _EBO;
   DShader ds;
 
   void init();
