@@ -140,3 +140,8 @@ void DShader::use()
 {
   glUseProgram(_pID);
 }
+
+GLuint DShader::getProgramID()
+{
+  return _pID;
+}

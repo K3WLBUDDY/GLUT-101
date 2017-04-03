@@ -86,6 +86,12 @@ void DWindow::draw()
   //Binds the Vertex Array Object
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
   ds.use();
+
+  GLuint pID = ds.getProgramID();
+  GLint inColorLocation = glGetUniformLocation(pID, "inColor");
+  GLuint ticks = SDL_GetTicks();
+  GLfloat colorValue = sin(ticks)/2+0.5;
+  glUniform4f(inColorLocation, 0.0f, colorValue, 0.0f, 1.0f);
   glBindVertexArray(_VAO);
 
   //Draws from the specified Index
