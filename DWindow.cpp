@@ -89,6 +89,7 @@ void DWindow::draw()
 
   GLuint pID = ds.getProgramID();
   GLint inColorLocation = glGetUniformLocation(pID, "inColor");
+  //SDL_Delay(50);
   GLuint ticks = SDL_GetTicks();
   GLfloat colorValue = sin(ticks)/2+0.5;
   glUniform4f(inColorLocation, 0.0f, colorValue, 0.0f, 1.0f);
@@ -111,6 +112,8 @@ void DWindow::draw()
 
 void DWindow::init()
 {
+
+  std::cout<<"Current Refresh Rate : "<<_df.getRefreshRate();
   SDL_Init(SDL_INIT_EVERYTHING);
 
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);

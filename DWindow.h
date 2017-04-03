@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include "DShader.h"
+#include "DFps.h"
 
 enum class state{PLAY, STOP};
 
@@ -18,6 +19,7 @@ private:
   GLuint _VAO;
   GLuint _EBO;
   DShader ds;
+  DFps _df;
 
   void init();
   void processInput();
