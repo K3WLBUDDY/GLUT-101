@@ -92,7 +92,8 @@ void DWindow::draw()
   GLuint pID = ds.getProgramID();
   GLint inColorLocation = glGetUniformLocation(pID, "inColor");
   //SDL_Delay(50);
-  GLuint ticks = SDL_GetTicks();
+  GLuint ticks = SDL_GetTicks() * 0.01;
+
   GLfloat colorValue = sin(ticks)/2+0.5;
   glUniform4f(inColorLocation, 0.0f, colorValue, 0.0f, 1.0f);
   glBindVertexArray(_VAO);
