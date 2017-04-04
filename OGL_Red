@@ -38,4 +38,6 @@ Uniform must be set active in order to use em'
 
 glGettUniformLocation returns the location of the Unifomr in the GLSL code
 
-glUniform* sets the new unifomrm value
+glUniform* sets the new uniform Value
+
+Textures : Images applied to surfaces of 2D/3D Models
