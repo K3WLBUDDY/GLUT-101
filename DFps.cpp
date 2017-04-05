@@ -4,9 +4,6 @@ void DFps::setRefreshRate()
 {
 	#ifdef __GNUC__
 
-		int size;
-		Rotation currentRotation;
-
 		Display *d = XOpenDisplay(NULL);
 		Window root = RootWindow(d, 0);
 

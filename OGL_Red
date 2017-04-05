@@ -41,3 +41,9 @@ glGettUniformLocation returns the location of the Unifomr in the GLSL code
 glUniform* sets the new uniform Value
 
 Textures : Images applied to surfaces of 2D/3D Models
+
+Sampling - Getting Texture Color using Tex Coordinates
+
+Coordinates of Textures - s, t, r
+
+Texel - Texture Pixel
