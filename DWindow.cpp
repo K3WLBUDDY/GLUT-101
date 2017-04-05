@@ -1,8 +1,8 @@
 #include "DWindow.h"
 GLfloat _vertices[] = {
-  -0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // Top Right
-  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // Bottom Right
-  0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f  // Bottom Left
+  -0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // Top Right
+  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // Bottom Right
+  0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f  // Bottom Left
 };
 
 GLfloat _indices[] = {
@@ -14,7 +14,9 @@ void DWindow::run() //Should run at 60 FPS
 {
   init(); //Initializes SDL and GLEW
   _df.setRefreshRate();
+  
   shaderCompile(); //Compiles VS and FS
+  texInit();
 
   //Generates Buffer Object names. Names can be reused
   //only if deleted via glDeleteBuffers
@@ -44,10 +46,13 @@ void DWindow::run() //Should run at 60 FPS
   //The attributes created afer generating a VAO are pointed to by that particular VAO
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)(6*sizeof(GLfloat)));
+
 
   //Enables the Attribute at specified Location
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
 
   //Unbinds the VBO
   glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -98,6 +103,8 @@ void DWindow::draw()
 
   GLfloat colorValue = sin(ticks)/2+0.5;
   glUniform4f(inColorLocation, 0.0f, colorValue, 0.0f, 1.0f);
+
+    glBindTexture(GL_TEXTURE_2D, _dt.tex);
   glBindVertexArray(_VAO);
 
   //Draws from the specified Index
@@ -152,4 +159,14 @@ void DWindow::shaderCompile()
     ds.compileShader(fp);
     ds.compileShader(vp);
     ds.linkShader();
+}
+
+void DWindow::texInit()
+{
+  success =_dt.loadTexture("textures/container.jpg");//TODO - Add Texture File
+  if(success == false)
+    std::cout<<"\n Falied to Load Texture";
+  else
+    _dt.genTexture();
+
 }
