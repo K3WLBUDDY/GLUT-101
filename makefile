@@ -1,6 +1,6 @@
 OBJS = main.o DWindow.o DShader.o DFps.o DTex.o
 CC = g++
-DEPS = -lSDL2 -lGLEW -lGLU -lGL -lX11 -lpthread -lXrandr -lXi -lXrandr -lSOIL
+DEPS = -lSDL2 -lGLEW -lGLU -lGL -lX11 -lpthread -lXrandr -lXi -lSOIL 
 
 run : $(OBJS)
 	$(CC) -o run $(OBJS) $(DEPS)

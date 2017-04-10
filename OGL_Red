@@ -47,3 +47,11 @@ Sampling - Getting Texture Color using Tex Coordinates
 Coordinates of Textures - s, t, r
 
 Texel - Texture Pixel
+
+Cross Product is defined only in 3D Space
+
+Orthogonal - Angle made by the vectors is 90
+
+Matrix Vector Multiplication - Can be used to Transform Vectors 
+
+Scaling  Translation

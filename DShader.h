@@ -9,6 +9,7 @@
 #include <fstream>
 
 
+
 class DShader
 {
 private:
@@ -18,6 +19,7 @@ private:
   
 
   DShader() : _vs(0), _fs(0), _pID(0) {}
+  
 
 public:
 

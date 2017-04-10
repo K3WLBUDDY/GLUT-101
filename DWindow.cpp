@@ -1,8 +1,8 @@
 #include "DWindow.h"
 GLfloat _vertices[] = {
-  -0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // Top Right
+  -0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // Bottom Left
   0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // Bottom Right
-  0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f  // Bottom Left
+  0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f  // Top
 };
 
 GLfloat _indices[] = {
@@ -94,15 +94,23 @@ void DWindow::draw()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   //Binds the Vertex Array Object
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
+
+  glm::mat4 trans;
+  //trans = glm::rotate(trans, (GLfloat)SDL_GetTicks()*glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+  //trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
   ds.use();
 
   GLuint pID = ds.getProgramID();
   GLint inColorLocation = glGetUniformLocation(pID, "inColor");
+  GLint transformLocation = glGetUniformLocation(pID, "transform");
   //SDL_Delay(50);
-  GLuint ticks = SDL_GetTicks() * 0.01;
+  GLfloat ticks = SDL_GetTicks();
+  SDL_Delay(16);
+  trans = glm::rotate(trans, ticks*(50.0f), glm::vec3(0.0, 0.0, 1.0));
 
   GLfloat colorValue = sin(ticks)/2+0.5;
   glUniform4f(inColorLocation, 0.0f, colorValue, 0.0f, 1.0f);
+  glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
 
     glBindTexture(GL_TEXTURE_2D, _dt.tex);
   glBindVertexArray(_VAO);
@@ -141,9 +149,9 @@ void DWindow::init()
   if(_glContext==nullptr)
     std::cout<<"\n Failed to Create OpenGL Context";
 
-  GLenum error = glewInit();
+  _error = glewInit();
 
-  if(error!=GLEW_OK)
+  if(_error!=GLEW_OK)
     std::cout<<"\n Failed to Initialize GLEW";
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);

@@ -7,6 +7,9 @@
 #include "DShader.h"
 #include "DFps.h"
 #include "DTex.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 enum class state{PLAY, STOP};
 
@@ -19,6 +22,7 @@ private:
   GLuint _VBO;
   GLuint _VAO;
   GLuint _EBO;
+  GLenum _error;
   DShader ds;
   DFps _df;
   DTex _dt;
@@ -29,6 +33,8 @@ private:
   void draw();
   void shaderCompile();
   void texInit();
+
+ 
 
 public:
 
