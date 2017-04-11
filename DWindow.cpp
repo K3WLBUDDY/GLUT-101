@@ -90,7 +90,7 @@ void DWindow::draw()
 {
   
   glClearDepth(1.0);
-  glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
+  glClearColor(0.3f, 0.3f, 0.7f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   //Binds the Vertex Array Object
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
@@ -100,19 +100,17 @@ void DWindow::draw()
   //trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
   ds.use();
 
-  GLuint pID = ds.getProgramID();
-  GLint inColorLocation = glGetUniformLocation(pID, "inColor");
-  GLint transformLocation = glGetUniformLocation(pID, "transform");
-  //SDL_Delay(50);
-  GLfloat ticks = SDL_GetTicks();
-  SDL_Delay(16);
-  trans = glm::rotate(trans, ticks*(50.0f), glm::vec3(0.0, 0.0, 1.0));
+  GLint inColorLocation = glGetUniformLocation(ds.getProgramID(), "inColor");
+  GLint transformLocation = glGetUniformLocation(ds.getProgramID(), "transform");
+ 
+  GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points!
+  
+  trans = glm::rotate(trans, ticks*glm::radians((50.0f)), glm::vec3(0.0, 0.0, 1.0));
 
-  GLfloat colorValue = sin(ticks)/2+0.5;
-  glUniform4f(inColorLocation, 0.0f, colorValue, 0.0f, 1.0f);
+  
   glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
 
-    glBindTexture(GL_TEXTURE_2D, _dt.tex);
+  glBindTexture(GL_TEXTURE_2D, _dt.tex);
   glBindVertexArray(_VAO);
 
   //Draws from the specified Index
