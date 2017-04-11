@@ -55,3 +55,21 @@ Orthogonal - Angle made by the vectors is 90
 Matrix Vector Multiplication - Can be used to Transform Vectors 
 
 Scaling  Translation
+
+Coordinate Systems : 
+
+1. Local Space - Coordinate System local to the Model / Object
+	Transformed to World Space with Model Matrix.
+
+2. World Space - Coordinates with respect to a large world. 
+	Transformed to View Space with View Matrix
+
+3. View Space - Coordinates from Camera's perspective. This is the Camera / Eye Space
+	Transformed to Clip Space with Projection matrix
+
+4. Clip Space - Determines the Vertices that will end up on the Screen. Coordinates bw -1.0 to +1.0
+	Transformed to Screen Space with Viewport Transform
+
+5. Screen Space - Transforms Coordinates from -1.0 - 1.0  to coordinates defined by glViewport.
+
+In OpenGL the Camera is at a constant Origin.
