@@ -105,9 +105,12 @@ void DWindow::draw()
   glm::mat4 projection;
   float width = 1024, height = 768;
 
-  model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+  GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
+  
+
+  model = glm::rotate(model, ticks*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
   view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-  projection = glm::perspective(glm::radians(45.0f), width/height, 0.1f, 100.0f);
+  projection = glm::perspective(glm::radians(90.0f), width/height, 0.1f, 100.0f);
   //trans = glm::rotate(trans, (GLfloat)SDL_GetTicks()*glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
   //trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
   ds.use();
@@ -118,8 +121,7 @@ void DWindow::draw()
   GLint viewLocation = glGetUniformLocation(ds.getProgramID(), "view");
   GLint projectionLocation  =glGetUniformLocation(ds.getProgramID(), "projection");
  
-  GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
-  
+
   trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
 
   
