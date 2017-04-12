@@ -13,5 +13,6 @@ void main()
 {
 	//color = texture(tex, TexCoord);
 	vec4 Fcolor = vec4(Dcolor.x, Dcolor.y, Dcolor.z, 0.0);
-	color = Fcolor*texture(tex, TexCoord);
+	//color = Fcolor*texture(tex, TexCoord);
+	color = texture(tex, TexCoord);
 }

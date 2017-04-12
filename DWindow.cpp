@@ -13,6 +13,9 @@ GLfloat _indices[] = {
 void DWindow::run() //Should run at 60 FPS
 {
   init(); //Initializes SDL and GLEW
+
+  glViewport(0,0,1024,768);
+
   _df.setRefreshRate();
   
   shaderCompile(); //Compiles VS and FS
@@ -60,6 +63,7 @@ void DWindow::run() //Should run at 60 FPS
   //Unbinds the VAO
   glBindVertexArray(0);
 
+
   while(s!= state::STOP)
   {
 
@@ -96,19 +100,33 @@ void DWindow::draw()
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
 
   glm::mat4 trans;
+  glm::mat4 model;
+  glm::mat4 view;
+  glm::mat4 projection;
+  float width = 1024, height = 768;
+
+  model = glm::rotate(model, -55.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+  view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+  projection = glm::perspective(glm::radians(45.0f), width/height, 0.1f, 100.0f);
   //trans = glm::rotate(trans, (GLfloat)SDL_GetTicks()*glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
   //trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
   ds.use();
 
   GLint inColorLocation = glGetUniformLocation(ds.getProgramID(), "inColor");
   GLint transformLocation = glGetUniformLocation(ds.getProgramID(), "transform");
+  GLint modelLocation = glGetUniformLocation(ds.getProgramID(), "model");
+  GLint viewLocation = glGetUniformLocation(ds.getProgramID(), "view");
+  GLint projectionLocation  =glGetUniformLocation(ds.getProgramID(), "projection");
  
-  GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points!
+  GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
   
-  trans = glm::rotate(trans, ticks*glm::radians((50.0f)), glm::vec3(0.0, 0.0, 1.0));
+  trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
 
   
   glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
+  glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+  glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+  glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
   glBindTexture(GL_TEXTURE_2D, _dt.tex);
   glBindVertexArray(_VAO);

@@ -73,3 +73,20 @@ Coordinate Systems :
 5. Screen Space - Transforms Coordinates from -1.0 - 1.0  to coordinates defined by glViewport.
 
 In OpenGL the Camera is at a constant Origin.
+
+Orthographic - places Cooridnates as it is into the Clip Space.
+
+Perspective - Manipulates the Coordinates for perspective projection
+
+Near Plane, Far Plane - For Clipping
+
+Perspective Projection Matrix - Homogeneous Coordinate is manipulated
+
+Further away the Object, Higher is the value of w.
+
+FOV - Generally 45.
+
+Final Transformation of Vertex Cordinates into Clip Coordinates:
+
+Vclip = Projection * View * Model * Local;
+
