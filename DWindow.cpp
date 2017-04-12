@@ -105,7 +105,7 @@ void DWindow::draw()
   glm::mat4 projection;
   float width = 1024, height = 768;
 
-  model = glm::rotate(model, -55.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+  model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
   view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
   projection = glm::perspective(glm::radians(45.0f), width/height, 0.1f, 100.0f);
   //trans = glm::rotate(trans, (GLfloat)SDL_GetTicks()*glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
@@ -151,6 +151,7 @@ void DWindow::init()
 
   SDL_Init(SDL_INIT_EVERYTHING);
 
+
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);//Min OpenGL 3 Core
 
@@ -171,6 +172,8 @@ void DWindow::init()
     std::cout<<"\n Failed to Initialize GLEW";
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+  //glViewport(0,0,1024,768);
 
 }
 

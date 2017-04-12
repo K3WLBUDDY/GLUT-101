@@ -16,5 +16,5 @@ void main()
 {
 	gl_Position = projection*view*model*vec4(position, 1.0f);
 	Dcolor = color;
-	TexCoord = texCoord;
+	TexCoord = vec2(texCoord.x, 1.0-texCoord.y);
 }
