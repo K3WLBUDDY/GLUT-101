@@ -43,28 +43,22 @@ GLfloat _vertices[] = {
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
-GLfloat _indices[] = {
-  0, 1, 3, 
-  1, 2, 3
-};
-
 void DWindow::run() //Should run at 60 FPS
 {
   init(); //Initializes SDL and GLEW
 
-  glViewport(0,0,1024,768);
+  glViewport(0,0,1024,768); //Specifies Coordinates for NDC to Window Transformation
+  //0,0 refer to the coordinates of the lower left corner
 
-  _df.setRefreshRate();
+  _df.setRefreshRate(); //Gets Default Refresh Rate of the Monitor
   
   shaderCompile(); //Compiles VS and FS
   texInit();
 
   //Generates Buffer Object names. Names can be reused
-  //only if deleted via glDeleteBuffers
-
-
+  //only if deleted via glDeleteBuffers. Number specifies the No. of buffers needed
   glGenBuffers(1, &_VBO);
-  glGenBuffers(1, &_EBO);
+  
 
   //Generates Vertex Array Object Names.
   glGenVertexArrays(1, &_VAO);
@@ -79,15 +73,13 @@ void DWindow::run() //Should run at 60 FPS
   //Specifies the Data being stored in the Buffer
   glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices, GL_STATIC_DRAW);
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices), _indices, GL_STATIC_DRAW);
 
   //Takes the Currently bound Buffer Data and sends it to the Shader
   //Shader Attribute is specified by the location
   //The attributes created afer generating a VAO are pointed to by that particular VAO
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (GLvoid*)0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (GLvoid*)0); //Position
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));//Color
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));//TexCoord
 
 
   //Enables the Attribute at specified Location
@@ -97,7 +89,7 @@ void DWindow::run() //Should run at 60 FPS
 
   //Unbinds the VBO
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  
   //Unbinds the VAO
   glBindVertexArray(0);
 
@@ -139,20 +131,19 @@ void DWindow::draw()
   //Binds the Vertex Array Object
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
 
-  glm::mat4 trans;
-  glm::mat4 model;
-  glm::mat4 view;
-  glm::mat4 projection;
+  glm::mat4 trans; //Transformation Matrix
+  glm::mat4 model; //Model Matrix
+  glm::mat4 view;  //View Matrix
+  glm::mat4 projection; //Perspective Projection matrix
   float width = 1024, height = 768;
 
   GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
   
 
-  model = glm::rotate(model, ticks*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+  model = glm::rotate(model, ticks*glm::radians(25.0f), glm::vec3(0.5f, 1.0f, 0.0f));
   view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
   projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
-  //trans = glm::rotate(trans, (GLfloat)SDL_GetTicks()*glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-  //trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+ 
   ds.use();
 
   GLint inColorLocation = glGetUniformLocation(ds.getProgramID(), "inColor");
@@ -162,7 +153,7 @@ void DWindow::draw()
   GLint projectionLocation  =glGetUniformLocation(ds.getProgramID(), "projection");
  
   
-  trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
+  //trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
 
   
   glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
@@ -215,7 +206,6 @@ void DWindow::init()
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  //glViewport(0,0,1024,768);
 
 }
 
@@ -234,7 +224,7 @@ void DWindow::texInit()
 {
   success =_dt.loadTexture("textures/container.jpg");//TODO - Add Texture File
   if(success == false)
-    std::cout<<"\n Falied to Load Texture";
+    std::cout<<"\n Failed to Load Texture";
   else
     _dt.genTexture();
 

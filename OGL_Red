@@ -90,3 +90,5 @@ Final Transformation of Vertex Cordinates into Clip Coordinates:
 
 Vclip = Projection * View * Model * Local;
 
+To generate More Objects of the same type modify the model matrix for each
+
