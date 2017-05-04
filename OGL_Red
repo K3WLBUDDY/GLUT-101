@@ -90,5 +90,9 @@ Final Transformation of Vertex Cordinates into Clip Coordinates:
 
 Vclip = Projection * View * Model * Local;
 
-To generate More Objects of the same type modify the model matrix for each
+To generate More Objects of the same type modify the model matrix for each object with its world coords
+
+Camera Stuff - Position in world space, Direction of LookAt, Right and Up Vectors
+
+Orthonormal Basis - Vectors are all unity and orthonormal to each other
 
