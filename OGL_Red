@@ -101,3 +101,5 @@ Gram-Schimdt Process - Orthonormalizes a set of vectors.
 lookAt Matrix - Transforms world coordinates to view coordinates. Done on the basis that any vector can be converted to a coordinate system if multiplied with a matrix containing all three orthonormal coordinates
 
 GLM::lookAt needs a position, target and up vector
+
+For getting SDL Keyboard event Key Pressed - evnt.key.keysym.sym (ikr?)

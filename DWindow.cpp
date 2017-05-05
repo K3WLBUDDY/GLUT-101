@@ -145,14 +145,21 @@ void DWindow::processInput()
 
       case SDL_KEYDOWN:
 
-        if(evnt.key.keysym.sym==SDLK_w)
+        keys[evnt.key.keysym.sym]=true;
+
+        if(keys[SDLK_w])
           cameraPosition += cameraSpeed * cameraFront;
-        else if(evnt.key.keysym.sym==SDLK_s)
+        if(keys[SDLK_s])
           cameraPosition -= cameraSpeed * cameraFront;
-        else if(evnt.key.keysym.sym==SDLK_a)
+        if(keys[SDLK_a])
           cameraPosition -= glm::normalize(glm::cross(cameraFront, cameraUp)*cameraSpeed);
-        else if(evnt.key.keysym.sym==SDLK_d)
+        if(keys[SDLK_d])
           cameraPosition += glm::normalize(glm::cross(cameraFront, cameraUp)*cameraSpeed);
+        break;
+
+      case SDL_KEYUP:
+
+        keys[evnt.key.keysym.sym]=false;
         break;
     }
   }
