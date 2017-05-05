@@ -44,7 +44,7 @@ GLfloat _vertices[] = {
 };
 
 glm::vec3 cubePositions[] = {
-  glm::vec3( 0.0f,  0.0f,  0.0f), 
+  glm::vec3( 0.0f,  0.0f,  -3.0f), 
   glm::vec3( 2.0f,  5.0f, -15.0f), 
   glm::vec3(-1.5f, -2.2f, -2.5f),  
   glm::vec3(-3.8f, -2.0f, -12.3f),  
@@ -55,13 +55,14 @@ glm::vec3 cubePositions[] = {
   glm::vec3( 1.5f,  0.2f, -1.5f), 
   glm::vec3(-1.3f,  1.0f, -1.5f)  
 };
-
-glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);
-glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+/*
+glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);//Sets the position of the Camera in the World
+glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f); //The Coordinates of the target i.e the object to be focused by the camera
+glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);//The Direction Vector from the Camera Position to the Target
+glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);//A Unit Vector that points in the +Y Direction in the world space
+glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));//Right Vector of the Camera
+glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);//Up Vector of the Camera
+*/
 
 void DWindow::run() //Should run at 60 FPS
 {
@@ -148,36 +149,39 @@ void DWindow::draw()
   glEnable(GL_DEPTH_TEST);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  //Binds the Vertex Array Object
-  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
-
   glm::mat4 trans; //Transformation Matrix
   glm::mat4 model; //Model Matrix
-  glm::mat4 view;  //View Matrix
+  //glm::mat4 view;  //View Matrix
   glm::mat4 projection; //Perspective Projection matrix
   float width = 1024, height = 768;
 
   GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
-  
+  GLfloat radius = glm::radians(10.0f);
+  GLfloat camX = glm::radians(sin(ticks) * radius);
+  GLfloat camZ = glm::radians(cos(ticks) * radius);
+  glm::mat4 view;
 
-  model = glm::rotate(model, ticks*glm::radians(25.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+  //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
   view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+  //model = glm::rotate(model, ticks*glm::radians(25.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+  
   projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
  
   ds.use();
 
   GLint inColorLocation = glGetUniformLocation(ds.getProgramID(), "inColor");
-  GLint transformLocation = glGetUniformLocation(ds.getProgramID(), "transform");
+  //GLint transformLocation = glGetUniformLocation(ds.getProgramID(), "transform");
   GLint modelLocation = glGetUniformLocation(ds.getProgramID(), "model");
   GLint viewLocation = glGetUniformLocation(ds.getProgramID(), "view");
   GLint projectionLocation  =glGetUniformLocation(ds.getProgramID(), "projection");
  
   
-  trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
+  //trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
 
   
-  glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
-  glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+  //glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
+  //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
   glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
   glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 

@@ -18,7 +18,7 @@ private:
   GLuint _pID;
   
 
-  DShader() : _vs(0), _fs(0), _pID(0) {}
+  
   
 
 public:
@@ -27,6 +27,7 @@ public:
   void linkShader();
   void use();
   GLuint getProgramID();
+  DShader() : _vs(0), _fs(0), _pID(0) {}
   //void unuse();
 };
 

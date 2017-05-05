@@ -22,9 +22,11 @@ private:
 	float screenRefreshRate;
 
 
-	DFps() : screenRefreshRate(0) {}
+	
 
 public:
+
+	DFps() : screenRefreshRate(0) {}
 
 	void setRefreshRate();
 	float getRefreshRate() const;

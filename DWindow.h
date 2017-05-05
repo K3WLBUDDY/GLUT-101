@@ -24,10 +24,7 @@ private:
   GLuint _EBO;
   GLenum _error;
   DShader ds;
-  DFps _df;
-  DTex _dt;
   bool success;
-
   void init();
   void processInput();
   void draw();
@@ -39,6 +36,8 @@ private:
 public:
 
   void run();
+  DFps _df;
+  DTex _dt;
 
   state s;
 };
