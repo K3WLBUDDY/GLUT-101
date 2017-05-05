@@ -44,7 +44,7 @@ GLfloat _vertices[] = {
 };
 
 glm::vec3 cubePositions[] = {
-  glm::vec3( 0.0f,  0.0f,  -3.0f), 
+  glm::vec3( 0.0f,  0.0f,  0.0f), 
   glm::vec3( 2.0f,  5.0f, -15.0f), 
   glm::vec3(-1.5f, -2.2f, -2.5f),  
   glm::vec3(-3.8f, -2.0f, -12.3f),  
@@ -156,17 +156,19 @@ void DWindow::draw()
   float width = 1024, height = 768;
 
   GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
-  GLfloat radius = glm::radians(10.0f);
-  GLfloat camX = glm::radians(sin(ticks) * radius);
-  GLfloat camZ = glm::radians(cos(ticks) * radius);
+  GLfloat radius = 10.0f;
+  GLfloat camX = sin(SDL_GetTicks()*0.001) * radius;
+  GLfloat camZ = cos(SDL_GetTicks()*0.001) * radius;
   glm::mat4 view;
+   projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
 
-  //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-  view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
+  //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+  view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+  //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 1.0, 0.0));
+  //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
   //model = glm::rotate(model, ticks*glm::radians(25.0f), glm::vec3(0.5f, 1.0f, 0.0f));
   
-  projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
+ 
  
   ds.use();
 
