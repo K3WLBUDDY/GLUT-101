@@ -68,6 +68,8 @@ glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);//Up Vector of the
 glm::vec3 cameraFront = glm::vec3 (0.0f, 0.0f, -1.0f);
 
 GLfloat cameraSpeed = 0.05f;
+GLfloat deltaTime = 0.0f;
+GLfloat lastFrame = 0.0f;
 
 void DWindow::run() //Should run at 60 FPS
 {
@@ -133,6 +135,12 @@ void DWindow::run() //Should run at 60 FPS
 
 void DWindow::processInput()
 {
+
+  GLfloat currentFrame = SDL_GetTicks()*0.001;
+  deltaTime = currentFrame - lastFrame;
+  lastFrame = currentFrame;
+
+  cameraSpeed = 5.0f*deltaTime;
   SDL_Event evnt;
 
   while(SDL_PollEvent(&evnt))
