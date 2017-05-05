@@ -55,14 +55,19 @@ glm::vec3 cubePositions[] = {
   glm::vec3( 1.5f,  0.2f, -1.5f), 
   glm::vec3(-1.3f,  1.0f, -1.5f)  
 };
-/*
+
+bool keys[1024];
+
+
 glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);//Sets the position of the Camera in the World
 glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f); //The Coordinates of the target i.e the object to be focused by the camera
 glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);//The Direction Vector from the Camera Position to the Target
 glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);//A Unit Vector that points in the +Y Direction in the world space
 glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));//Right Vector of the Camera
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);//Up Vector of the Camera
-*/
+glm::vec3 cameraFront = glm::vec3 (0.0f, 0.0f, -1.0f);
+
+GLfloat cameraSpeed = 0.05f;
 
 void DWindow::run() //Should run at 60 FPS
 {
@@ -137,6 +142,18 @@ void DWindow::processInput()
       case SDL_QUIT:
         s= state::STOP;
         break;
+
+      case SDL_KEYDOWN:
+
+        if(evnt.key.keysym.sym==SDLK_w)
+          cameraPosition += cameraSpeed * cameraFront;
+        else if(evnt.key.keysym.sym==SDLK_s)
+          cameraPosition -= cameraSpeed * cameraFront;
+        else if(evnt.key.keysym.sym==SDLK_a)
+          cameraPosition -= glm::normalize(glm::cross(cameraFront, cameraUp)*cameraSpeed);
+        else if(evnt.key.keysym.sym==SDLK_d)
+          cameraPosition += glm::normalize(glm::cross(cameraFront, cameraUp)*cameraSpeed);
+        break;
     }
   }
 }
@@ -163,7 +180,7 @@ void DWindow::draw()
    projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
 
   //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
-  view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+  view = glm::lookAt(cameraPosition, cameraPosition+cameraFront, cameraUp);
   //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 1.0, 0.0));
   //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
   //model = glm::rotate(model, ticks*glm::radians(25.0f), glm::vec3(0.5f, 1.0f, 0.0f));
