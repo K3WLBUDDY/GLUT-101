@@ -103,3 +103,11 @@ lookAt Matrix - Transforms world coordinates to view coordinates. Done on the ba
 GLM::lookAt needs a position, target and up vector
 
 For getting SDL Keyboard event Key Pressed - evnt.key.keysym.sym (ikr?)
+
+Euler Angles - Set of Three angles that describe the orientation of a rigid body wrt a fixed coordiante system.
+
+Pitch - Orientation wrt the X axis i.e the Object is rotated up or down.
+
+Yaw - Orientation wrt the Y axis i.e left or right rotations
+
+Roll - Orientation wrt Z axis 

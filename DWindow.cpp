@@ -66,10 +66,16 @@ glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);//A Unit Vector that points in the +Y
 glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));//Right Vector of the Camera
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);//Up Vector of the Camera
 glm::vec3 cameraFront = glm::vec3 (0.0f, 0.0f, -1.0f);
+glm::vec3 front;
 
 GLfloat cameraSpeed = 0.05f;
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
+GLfloat lastX = 1024*0.5;
+GLfloat lastY = 768*0.5;
+GLfloat xPos, yPos, yaw=0.0f, pitch=0.0f, xOffset, yOffset,sens;
+
+bool firstMouse = true;
 
 void DWindow::run() //Should run at 60 FPS
 {
@@ -155,6 +161,8 @@ void DWindow::processInput()
 
         keys[evnt.key.keysym.sym]=true;
 
+        std::cout<<"\n KEY IN INT : "<<evnt.key.keysym.sym;
+
         if(keys[SDLK_w])
           cameraPosition += cameraSpeed * cameraFront;
         if(keys[SDLK_s])
@@ -168,6 +176,45 @@ void DWindow::processInput()
       case SDL_KEYUP:
 
         keys[evnt.key.keysym.sym]=false;
+        break;
+
+      case SDL_MOUSEMOTION:
+
+        xPos = evnt.motion.x;
+        yPos = evnt.motion.y;
+
+        if(firstMouse)
+        {
+          lastX = xPos;
+          lastY = yPos;
+          firstMouse = false;
+        }
+
+       
+
+        xOffset = xPos - lastX;
+        yOffset = lastY - yPos;
+
+        lastX = xPos;
+        lastY = yPos;
+
+        sens = 0.05f;
+        xOffset *= sens;
+        yOffset *= sens;
+
+        yaw += xOffset;
+        pitch += yOffset;
+
+        if(pitch>89.0f)
+          pitch=89.0f;
+        if(pitch<-89.0f)
+          pitch=-89.0f;
+
+        //glm::vec3 front;
+        front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+        front.y = sin(glm::radians(pitch));
+        front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+        cameraFront = glm::normalize(front);
         break;
     }
   }
