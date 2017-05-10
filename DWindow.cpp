@@ -58,6 +58,8 @@ glm::vec3 cubePositions[] = {
 };
 
 bool keys[1024];
+bool keyPressed = false, keyMotion=false;
+SDL_Event evnt;
 
 
 glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);//Sets the position of the Camera in the World
@@ -74,7 +76,8 @@ GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 GLfloat lastX = 800*0.5;
 GLfloat lastY = 600*0.5;
-GLfloat xPos, yPos, yaw=0.0f, pitch=0.0f, xOffset=0, yOffset=0,sens;
+GLfloat xPos, yPos, yaw=1.0f, pitch=1.0f, xOffset=0, yOffset=0,sens;
+GLfloat xnPos=0, ynPos=0;
 
 bool firstMouse = true;
 
@@ -140,6 +143,54 @@ void DWindow::run() //Should run at 60 FPS
   glDeleteBuffers(1, &_VBO);
 }
 
+void DWindow::mouseMotion()
+{
+
+  if (firstMouse==true)
+  {
+    pitch=45.0f;
+    yaw=45.0f;
+    firstMouse=false;
+
+    glm::vec3 front;
+          front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+          front.y = sin(glm::radians(pitch));
+          front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+          cameraFront = glm::normalize(front);
+  }
+
+  else
+
+   {xPos = evnt.motion.xrel;
+          yPos = evnt.motion.yrel;
+    
+
+          std::cout<<"\n CURSOR COORDINATES : "<<xPos<<"...."<<yPos;
+
+
+          sens = 0.05f;
+
+          yaw += xPos*sens;
+          pitch += yPos*sens;
+
+          if(pitch>89.0f)
+            pitch=89.0f;
+          if(pitch<-89.0f)
+            pitch=-89.0f;
+
+          glm::vec3 front;
+          front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+          front.y = sin(glm::radians(pitch));
+          front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+          cameraFront = glm::normalize(front);
+        
+        std::cout<<"\n FRONT VALUES : "<<glm::to_string(cameraFront)<<std::endl;
+  }
+
+    
+        
+}
+
 void DWindow::processInput()
 {
 
@@ -148,7 +199,7 @@ void DWindow::processInput()
   lastFrame = currentFrame;
 
   cameraSpeed = 5.0f*deltaTime;
-  SDL_Event evnt;
+  //SDL_Event evnt;
 
   while(SDL_PollEvent(&evnt))
   {
@@ -179,32 +230,21 @@ void DWindow::processInput()
         keys[evnt.key.keysym.sym]=false;
         break;
 
+      case SDL_MOUSEBUTTONUP:
+          keyPressed=false;
+          break;
+
+      case SDL_MOUSEBUTTONDOWN:
+
+          keyPressed = true;
+        break;
+
       case SDL_MOUSEMOTION:
 
-      //while()
+      if(keyPressed==true)
+      mouseMotion();
+      break;
 
-        xPos = evnt.motion.xrel;
-        yPos = evnt.motion.yrel;
-
-        std::cout<<"\n CURSOR COORDINATES : "<<xPos<<"...."<<yPos;
-
-
-        sens = 0.05f;
-
-        yaw += xPos*sens;
-        pitch += yPos*sens;
-
-        if(pitch>89.0f)
-          pitch=89.0f;
-        if(pitch<-89.0f)
-          pitch=-89.0f;
-
-        glm::vec3 front;
-        front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-        front.y = sin(glm::radians(pitch));
-        front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-        cameraFront = glm::normalize(front);
-        break;
     }
   }
 }
@@ -233,8 +273,8 @@ void DWindow::draw()
   
   view = glm::lookAt(cameraPosition, cameraPosition+cameraFront, cameraUp);
  
-  std::cout<<"\n CAMERA POSITION COORDINATES : "<<glm::to_string(cameraPosition)<<std::endl;
-  std::cout<<"\n CAMERA FRONT COORDINATES : "<<glm::to_string(cameraFront);
+  //std::cout<<"\n CAMERA POSITION COORDINATES : "<<glm::to_string(cameraPosition)<<std::endl;
+  //std::cout<<"\n CAMERA FRONT COORDINATES : "<<glm::to_string(cameraFront);
   ds.use();
 
   GLint inColorLocation = glGetUniformLocation(ds.getProgramID(), "inColor");
@@ -243,12 +283,6 @@ void DWindow::draw()
   GLint viewLocation = glGetUniformLocation(ds.getProgramID(), "view");
   GLint projectionLocation  =glGetUniformLocation(ds.getProgramID(), "projection");
  
-  
-  //trans = glm::rotate(trans, ticks*glm::radians((1.0f)), glm::vec3(0.0, 0.0, 1.0));
-
-  
-  //glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(trans));
-  //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
   glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
   glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
