@@ -1,4 +1,5 @@
 #include "DWindow.h"
+#include "glm/gtx/string_cast.hpp"
 GLfloat _vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -66,14 +67,14 @@ glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);//A Unit Vector that points in the +Y
 glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));//Right Vector of the Camera
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);//Up Vector of the Camera
 glm::vec3 cameraFront = glm::vec3 (0.0f, 0.0f, -1.0f);
-glm::vec3 front;
+//glm::vec3 front;
 
 GLfloat cameraSpeed = 0.05f;
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
-GLfloat lastX = 1024*0.5;
-GLfloat lastY = 768*0.5;
-GLfloat xPos, yPos, yaw=0.0f, pitch=0.0f, xOffset, yOffset,sens;
+GLfloat lastX = 800*0.5;
+GLfloat lastY = 600*0.5;
+GLfloat xPos, yPos, yaw=0.0f, pitch=0.0f, xOffset=0, yOffset=0,sens;
 
 bool firstMouse = true;
 
@@ -81,7 +82,7 @@ void DWindow::run() //Should run at 60 FPS
 {
   init(); //Initializes SDL and GLEW
 
-  glViewport(0,0,1024,768); //Specifies Coordinates for NDC to Window Transformation
+  glViewport(0,0,800,600); //Specifies Coordinates for NDC to Window Transformation
   //0,0 refer to the coordinates of the lower left corner
 
   _df.setRefreshRate(); //Gets Default Refresh Rate of the Monitor
@@ -180,37 +181,24 @@ void DWindow::processInput()
 
       case SDL_MOUSEMOTION:
 
-        xPos = evnt.motion.x;
-        yPos = evnt.motion.y;
+        xPos = evnt.motion.xrel;
+        yPos = evnt.motion.yrel;
 
-        if(firstMouse)
-        {
-          lastX = xPos;
-          lastY = yPos;
-          firstMouse = false;
-        }
-
-       
-
-        xOffset = xPos - lastX;
-        yOffset = lastY - yPos;
-
-        lastX = xPos;
-        lastY = yPos;
+        std::cout<<"\n CURSOR COORDINATES : "<<xPos<<"...."<<yPos;
 
         sens = 0.05f;
         xOffset *= sens;
         yOffset *= sens;
 
-        yaw += xOffset;
-        pitch += yOffset;
+        yaw -= xPos*sens;
+        pitch += yPos*sens;
 
         if(pitch>89.0f)
           pitch=89.0f;
         if(pitch<-89.0f)
           pitch=-89.0f;
 
-        //glm::vec3 front;
+        glm::vec3 front;
         front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
         front.y = sin(glm::radians(pitch));
         front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
@@ -241,14 +229,11 @@ void DWindow::draw()
   glm::mat4 view;
    projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
 
-  //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
-  view = glm::lookAt(cameraPosition, cameraPosition+cameraFront, cameraUp);
-  //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 1.0, 0.0));
-  //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
-  //model = glm::rotate(model, ticks*glm::radians(25.0f), glm::vec3(0.5f, 1.0f, 0.0f));
   
+  view = glm::lookAt(cameraPosition, cameraPosition+cameraFront, cameraUp);
  
- 
+  std::cout<<"\n CAMERA POSITION COORDINATES : "<<glm::to_string(cameraPosition)<<std::endl;
+  std::cout<<"\n CAMERA FRONT COORDINATES : "<<glm::to_string(cameraFront);
   ds.use();
 
   GLint inColorLocation = glGetUniformLocation(ds.getProgramID(), "inColor");
@@ -300,7 +285,7 @@ void DWindow::init()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);//Min OpenGL 3 Core
 
-  _window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024 ,768, SDL_WINDOW_OPENGL);
+  _window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800 ,600, SDL_WINDOW_OPENGL);
 
 
   if(_window==nullptr)
