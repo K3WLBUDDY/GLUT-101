@@ -181,16 +181,17 @@ void DWindow::processInput()
 
       case SDL_MOUSEMOTION:
 
+      //while()
+
         xPos = evnt.motion.xrel;
         yPos = evnt.motion.yrel;
 
         std::cout<<"\n CURSOR COORDINATES : "<<xPos<<"...."<<yPos;
 
-        sens = 0.05f;
-        xOffset *= sens;
-        yOffset *= sens;
 
-        yaw -= xPos*sens;
+        sens = 0.05f;
+
+        yaw += xPos*sens;
         pitch += yPos*sens;
 
         if(pitch>89.0f)
@@ -302,7 +303,7 @@ void DWindow::init()
     std::cout<<"\n Failed to Initialize GLEW";
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
+  SDL_SetRelativeMouseMode(SDL_TRUE);
 
 }
 
