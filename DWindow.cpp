@@ -76,7 +76,7 @@ GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 GLfloat lastX = 800*0.5;
 GLfloat lastY = 600*0.5;
-GLfloat xPos, yPos, yaw=1.0f, pitch=1.0f, xOffset=0, yOffset=0,sens;
+GLfloat xPos, yPos, yaw=-90.0f, pitch=0.0f, xOffset=0, yOffset=0,sens;
 GLfloat xnPos=0, ynPos=0;
 
 bool firstMouse = true;
@@ -146,22 +146,9 @@ void DWindow::run() //Should run at 60 FPS
 void DWindow::mouseMotion()
 {
 
-  if (firstMouse==true)
-  {
-    pitch=45.0f;
-    yaw=45.0f;
-    firstMouse=false;
 
-    glm::vec3 front;
-          front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-          front.y = sin(glm::radians(pitch));
-          front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-          cameraFront = glm::normalize(front);
-  }
 
-  else
-
-   {xPos = evnt.motion.xrel;
+   xPos = evnt.motion.xrel;
           yPos = evnt.motion.yrel;
     
 
@@ -171,7 +158,7 @@ void DWindow::mouseMotion()
           sens = 0.05f;
 
           yaw += xPos*sens;
-          pitch += yPos*sens;
+          pitch -= yPos*sens;
 
           if(pitch>89.0f)
             pitch=89.0f;
@@ -182,10 +169,11 @@ void DWindow::mouseMotion()
           front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
           front.y = sin(glm::radians(pitch));
           front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+           std::cout<<"\n FRONT VALUES : "<<glm::to_string(cameraFront)<<std::endl;
           cameraFront = glm::normalize(front);
         
-        std::cout<<"\n FRONT VALUES : "<<glm::to_string(cameraFront)<<std::endl;
-  }
+       
+  
 
     
         
@@ -268,7 +256,7 @@ void DWindow::draw()
   GLfloat camX = sin(SDL_GetTicks()*0.001) * radius;
   GLfloat camZ = cos(SDL_GetTicks()*0.001) * radius;
   glm::mat4 view;
-   projection = glm::perspective(glm::radians(50.0f), width/height, 0.1f, 100.0f);
+   projection = glm::perspective(glm::radians(100.0f), width/height, 0.1f, 100.0f);
 
   
   view = glm::lookAt(cameraPosition, cameraPosition+cameraFront, cameraUp);
@@ -338,6 +326,8 @@ void DWindow::init()
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_SetRelativeMouseMode(SDL_TRUE);
+
+  //SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN);
 
 }
 
