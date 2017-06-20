@@ -30,5 +30,7 @@ void DTex::genTexture()
 	SOIL_free_image_data(_image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+
+
 	//return Tex;
 }

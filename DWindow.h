@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <stdio.h>
 
 enum class state{PLAY, STOP};
 
@@ -30,6 +31,7 @@ private:
   void draw();
   void shaderCompile();
   void texInit();
+  void mouseMotion();
 
  
 

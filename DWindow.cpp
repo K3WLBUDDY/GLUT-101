@@ -70,7 +70,7 @@ glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));//Right 
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);//Up Vector of the Camera
 glm::vec3 cameraFront = glm::vec3 (0.0f, 0.0f, -1.0f);
 //glm::vec3 front;
-
+//..
 GLfloat cameraSpeed = 0.05f;
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
@@ -85,7 +85,7 @@ void DWindow::run() //Should run at 60 FPS
 {
   init(); //Initializes SDL and GLEW
 
-  glViewport(0,0,800,600); //Specifies Coordinates for NDC to Window Transformation
+  glViewport(0,0,1920,1080); //Specifies Coordinates for NDC to Window Transformation
   //0,0 refer to the coordinates of the lower left corner
 
   _df.setRefreshRate(); //Gets Default Refresh Rate of the Monitor
@@ -249,7 +249,7 @@ void DWindow::draw()
   glm::mat4 model; //Model Matrix
   //glm::mat4 view;  //View Matrix
   glm::mat4 projection; //Perspective Projection matrix
-  float width = 1024, height = 768;
+  float width = 1920, height = 1080;
 
   GLfloat ticks = SDL_GetTicks()*0.001;//FFS Use Floating Points! Also convert Milliseconds to Seconds
   GLfloat radius = 10.0f;
@@ -308,7 +308,7 @@ void DWindow::init()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);//Min OpenGL 3 Core
 
-  _window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800 ,600, SDL_WINDOW_OPENGL);
+  _window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920 ,1080, SDL_WINDOW_OPENGL);
 
 
   if(_window==nullptr)
